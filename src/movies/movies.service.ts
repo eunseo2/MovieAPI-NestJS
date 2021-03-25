@@ -29,8 +29,8 @@ export class MoviesService {
   }
 
   update(id: string, updateData) {
-    const movie = this.getOne(id); // getone이 movie를 줌
+    const movie = this.getOne(id); // id가 1인 movie 가져옴
     this.deleteOne(id); //원래 movie 삭제
-    this.movies.push({ ...movie, ...updateData });
+    this.movies.push({ ...movie, ...updateData }); // 과거의 movie+ 새로운 데이터
   }
 }
