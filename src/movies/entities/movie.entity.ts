@@ -4,3 +4,4 @@ export class Movie {
   year: number;
   genres: string[];
 }
+//type orm 써야함

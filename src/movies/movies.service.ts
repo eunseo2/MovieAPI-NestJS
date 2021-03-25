@@ -27,4 +27,10 @@ export class MoviesService {
       ...movieData,
     });
   }
+
+  update(id: string, updateData) {
+    const movie = this.getOne(id); // getone이 movie를 줌
+    this.deleteOne(id); //원래 movie 삭제
+    this.movies.push({ ...movie, ...updateData });
+  }
 }
