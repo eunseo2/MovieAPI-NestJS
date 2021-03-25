@@ -30,6 +30,7 @@
 
 ```bash
 $ npm install
+node_modules, pakage.json
 ```
 
 ## Running the app
