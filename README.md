@@ -31,6 +31,9 @@
 ```bash
 $ npm install
 node_modules, pakage.json
+
+$ npm install --save @nestjs/typeorm typeorm pg
+typeORM 
 ```
 
 ## Running the app
