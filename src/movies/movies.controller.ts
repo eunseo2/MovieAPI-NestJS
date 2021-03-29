@@ -4,6 +4,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
+import { NotFoundException } from '@nestjs/common';
 
 @Controller('movies')
 export class MoviesController {
@@ -20,13 +21,12 @@ export class MoviesController {
   }
 
   @Get(':id') //id별 movie
-  async getOne(@Param('id') movieId: number): Promise<Movie> {
-    const getOne = await this.moviesService.getOne(movieId);
-    return Object.assign({
-      data: getOne,
-      statusCode: 200,
-      statusMsg: `데이터 조회가 성공적으로 완료되었습니다.`,
-    });
+  async getOne(@Param('id') movieId: number) {
+    const movie = await this.moviesService.getOne(movieId);
+    if (!movie) {
+      throw new NotFoundException(`movie with ID ${movieId} not found`);
+    }
+    return movie;
   }
 
   @Post()
