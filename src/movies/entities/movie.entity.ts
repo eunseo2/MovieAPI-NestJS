@@ -2,12 +2,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Movie {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn() //auto
   id?: number;
   @Column({ nullable: false })
   title: string;
   @Column({ nullable: false })
   year: number;
-  //@Column()
-  //genres: string[];
+  @Column()
+  genres: string;
 }

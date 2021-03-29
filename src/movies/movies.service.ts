@@ -1,36 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MoviesService {
-  private movies: Movie[] = [];
-
-  getAll(): Movie[] {
-    return this.movies;
+  constructor(
+    @InjectRepository(Movie) private movieRepository: Repository<Movie>,
+  ) {
+    this.movieRepository = movieRepository;
   }
 
-  getOne(id: string): Movie {
-    const movie = this.movies.find((movie) => movie.id === +id); //+ string-> number
-    if (!movie) {
-      throw new NotFoundException(`movie with id:${id} not found.`);
-    }
-    return movie;
+  getAll() {
+    return this.movieRepository.find();
+  }
+
+  getOne(id: string) {
+    return this.movieRepository.findOne(id);
   }
   deleteOne(id: string) {
-    this.getOne(id);
-    this.movies = this.movies.filter((movie) => movie.id !== +id);
+    return this.movieRepository.delete(id);
   }
 
   create(movieData) {
-    this.movies.push({
-      id: this.movies.length + 1,
-      ...movieData,
-    });
+    return this.movieRepository.save(movieData);
   }
 
   update(id: string, updateData) {
-    const movie = this.getOne(id); // id가 1인 movie 가져옴
-    this.deleteOne(id); //원래 movie 삭제
-    this.movies.push({ ...movie, ...updateData }); // 과거의 movie+ 새로운 데이터
+    return this.movieRepository.update(id, updateData);
   }
 }

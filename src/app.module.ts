@@ -2,8 +2,7 @@
 
 import { Module } from '@nestjs/common';
 import { Movie } from './movies/entities/movie.entity';
-import { MoviesController } from './movies/movies.controller';
-import { MoviesService } from './movies/movies.service';
+import { moviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -18,8 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [Movie],
       synchronize: true,
     }),
+    moviesModule,
   ],
-  controllers: [MoviesController], // url을 가져오고 함수를 실행 (express의 router 같은)
-  providers: [MoviesService],
 })
 export class AppModule {} // 클래스

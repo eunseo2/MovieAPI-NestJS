@@ -1,5 +1,5 @@
-import { Body, Patch, Query } from '@nestjs/common';
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Patch } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -7,34 +7,49 @@ import { MoviesService } from './movies.service';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Get()
-  getAll(): Movie[] {
-    return this.moviesService.getAll();
-  }
-  @Get('search')
-  search(@Query('year') seachingYear: string) {
-    return `we are searching for a movie made after : ${seachingYear}`;
+  @Get() // GET / movies
+  async getAll(): Promise<Movie[]> {
+    const movieList = await this.moviesService.getAll();
+    return Object.assign({
+      data: movieList,
+      statusCode: 200,
+      statusMsg: `데이터 조회가 성공적으로 완료되었습니다.`,
+    });
   }
 
   @Get(':id') //id별 movie
-  getOne(@Param('id') movieId: string): Movie {
-    return this.moviesService.getOne(movieId);
+  async getOne(@Param('id') movieId: string): Promise<Movie> {
+    const getOne = await this.moviesService.getOne(movieId);
+    return Object.assign({
+      data: getOne,
+      statusCode: 200,
+      statusMsg: `데이터 조회가 성공적으로 완료되었습니다.`,
+    });
   }
 
   @Post()
-  create(@Body() movieData) {
-    //req.body에 json으로 영화 이름 감독 써주면 됨.
-    return this.moviesService.create(movieData);
+  async create(@Body() movieData: Movie): Promise<string> {
+    await this.moviesService.create(movieData);
+    return Object.assign({
+      data: { ...movieData },
+      statusCode: 201,
+      statusMsg: `saved successfully`,
+    });
   }
 
   @Delete(':id')
-  remove(@Param('id') movieId: string) {
-    return this.moviesService.deleteOne(movieId);
+  async remove(@Param('id') movieId: string): Promise<string> {
+    await this.moviesService.deleteOne(movieId);
+    return Object.assign({
+      data: { movieId: movieId },
+      statusCode: 201,
+      statusMsg: `deleted successfully`,
+    });
   }
 
   //UPDATE  전체 - put 일부 - patch
   @Patch(':id')
-  patch(@Param('id') movieId: string, @Body() updateData) {
-    return this.moviesService.update(movieId, updateData);
+  async patch(@Param('id') movieId: string, @Body() updateData) {
+    await this.moviesService.update(movieId, updateData);
   }
 }
