@@ -3,7 +3,7 @@ import { Movie } from './entities/movie.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
-
+import { UpdateMovieDto } from './dto/update-movie.dto';
 @Injectable()
 export class MoviesService {
   constructor(
@@ -27,7 +27,7 @@ export class MoviesService {
     return this.movieRepository.save(movieData);
   }
 
-  update(id: number, updateData) {
+  update(id: number, updateData: UpdateMovieDto) {
     return this.movieRepository.update(id, updateData);
   }
 }

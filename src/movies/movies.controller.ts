@@ -1,6 +1,7 @@
 import { Body } from '@nestjs/common';
 import { Controller, Delete, Get, Param, Post, Patch } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -39,7 +40,7 @@ export class MoviesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') movieId: number ): Promise<string> {
+  async remove(@Param('id') movieId: number): Promise<string> {
     await this.moviesService.deleteOne(movieId);
     return Object.assign({
       data: { movieId: movieId },
@@ -50,7 +51,10 @@ export class MoviesController {
 
   //UPDATE  전체 - put 일부 - patch
   @Patch(':id')
-  async patch(@Param('id') movieId: number, @Body() updateData) {
+  async patch(
+    @Param('id') movieId: number,
+    @Body() updateData: UpdateMovieDto,
+  ) {
     await this.moviesService.update(movieId, updateData);
   }
 }
