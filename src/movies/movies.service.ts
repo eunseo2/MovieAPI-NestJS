@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -15,18 +16,18 @@ export class MoviesService {
     return this.movieRepository.find();
   }
 
-  getOne(id: string) {
+  getOne(id: number) {
     return this.movieRepository.findOne(id);
   }
-  deleteOne(id: string) {
+  deleteOne(id: number) {
     return this.movieRepository.delete(id);
   }
 
-  create(movieData) {
+  create(movieData: CreateMovieDto) {
     return this.movieRepository.save(movieData);
   }
 
-  update(id: string, updateData) {
+  update(id: number, updateData) {
     return this.movieRepository.update(id, updateData);
   }
 }
