@@ -9,12 +9,16 @@ export class MoviesService {
     this.movieRepository = movieRepository;
   }
 
-  getAll() {
-    return this.movieRepository.find();
+  async getAll() {
+    const movie = await this.movieRepository.find();
+    console.log(movie);
+    return movie;
   }
 
-  getOne(id: number) {
-    return this.movieRepository.findOne(id);
+  async getOne(id: number) {
+    const movie = await this.movieRepository.findOne(id);
+    console.log(movie);
+    return movie;
   }
   deleteOne(id: number) {
     return this.movieRepository.delete(id);
