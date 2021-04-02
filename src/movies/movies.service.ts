@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { Movie } from './entities/movie.entity';
 import { MovieRepository } from './movies.repository';
 
 @Injectable()
@@ -32,7 +33,8 @@ export class MoviesService {
     return this.movieRepository.update(id, updateData);
   }
 
-  getOneTitle(title: string) {
-    return this.movieRepository.getMovieByTitle(title);
+  async getOneTitle(title: string): Promise<Movie | undefined> {
+    const result = await this.movieRepository.getMovieByTitle(title);
+    return result;
   }
 }

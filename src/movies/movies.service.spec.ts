@@ -13,6 +13,7 @@ const mockRepository = {
   save: jest.fn(),
   delete: jest.fn(),
   update: jest.fn(),
+  getMovieByTitle: jest.fn(),
 };
 
 describe('MoviesService', () => {
@@ -91,6 +92,14 @@ describe('MoviesService', () => {
     it('should return object ', async () => {
       movieRepository.update.mockResolvedValue(updateData);
       const movie = await service.update(movieData.id, updateData);
+      console.log(movie);
+      expect(movie).toBeInstanceOf(Object);
+    });
+  });
+
+  describe('getOneTitle', () => {
+    it('should return object', async () => {
+      const movie = await service.getOneTitle('movie2');
       console.log(movie);
       expect(movie).toBeInstanceOf(Object);
     });
