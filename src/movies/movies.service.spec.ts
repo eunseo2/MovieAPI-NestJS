@@ -3,13 +3,16 @@ import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { UpdateMovieDto } from './dto/update-movie.dto';
+
 type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
 const mockRepository = {
   find: jest.fn(),
   findOne: jest.fn(),
-  create: jest.fn(),
+  save: jest.fn(),
+  delete: jest.fn(),
+  update: jest.fn(),
 };
 
 describe('MoviesService', () => {
@@ -35,55 +38,61 @@ describe('MoviesService', () => {
     expect(service).toBeDefined();
   });
 
-  // describe('getAll', () => {
-  //   it('getAll', () => {
-  //     const movie = movieRepository.find();
-  //     expect(typeof movie).toBe(Promise);
-  //   });
-  //   // it('should have a getAll function', () => {
-  //   //   expect(service.getAll).toBeInstanceOf(Function);
-  //   // });
-  // });
+  const movieData: Movie = {
+    id: 1231,
+    title: 'title',
+    year: 2020,
+    genres: 'action',
+  };
+
+  describe('getAll', () => {
+    it('getAll', async () => {
+      movieRepository.find.mockResolvedValue(movieData);
+      const movie = await service.getAll();
+      console.log(movie);
+      expect(movie).toBe(movieData);
+    });
+  });
 
   describe('getOne', () => {
-    const movieData: Movie = {
-      id: 1231,
-      title: 'title',
-      year: 2020,
-      genres: 'action',
-    };
-    it('getOne.3...', () => {
-      const movie = movieRepository.findOne.mockResolvedValue(1);
-      console.log(movie);
-      expect(typeof movie).toBe('function');
-    });
     it('should have a getOne function', () => {
       expect(typeof service.getOne).toBe('function');
     });
     it('should return a movie', async () => {
-      movieRepository.findOne.mockResolvedValue(movieData.id);
+      movieRepository.findOne.mockResolvedValue(movieData.id); // 결과값
       const movie = await service.getOne(movieData.id);
+      console.log(movie);
       expect(movie).toBe(movieData.id);
-    });
-
-    it('should throw 404 error', () => {
-      try {
-        movieRepository.findOne.mockResolvedValue(999);
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-      }
     });
   });
 
   describe('remove', () => {
-    it('should have a deleteOne function', () => {
-      expect(typeof service.deleteOne).toBe('function');
+    it('should return id ', async () => {
+      movieRepository.delete.mockResolvedValue(movieData.id);
+      const movie = await service.deleteOne(movieData.id);
+      expect(movie).toBe(movieData.id);
     });
   });
 
   describe('create', () => {
-    it('should have a create function', () => {
-      expect(typeof service.create).toBe('function');
+    it('should return object ', async () => {
+      movieRepository.save.mockResolvedValue(movieData);
+      const movie = await service.create(movieData);
+      expect(movie).toBeInstanceOf(Object);
+    });
+  });
+  const updateData: UpdateMovieDto = {
+    title: 'title-update',
+    year: 2019,
+    genres: 'romance',
+  };
+
+  describe('update', () => {
+    it('should return object ', async () => {
+      movieRepository.update.mockResolvedValue(updateData);
+      const movie = await service.update(movieData.id, updateData);
+      console.log(movie);
+      expect(movie).toBeInstanceOf(Object);
     });
   });
 });
