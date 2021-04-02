@@ -31,4 +31,8 @@ export class MoviesService {
   update(id: number, updateData: UpdateMovieDto) {
     return this.movieRepository.update(id, updateData);
   }
+
+  getOneTitle(title: string) {
+    return this.movieRepository.getMovieByTitle(title);
+  }
 }

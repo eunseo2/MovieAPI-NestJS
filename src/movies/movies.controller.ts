@@ -19,6 +19,11 @@ export class MoviesController {
       statusMsg: `데이터 조회가 성공적으로 완료되었습니다.`,
     });
   }
+  @Get(':title')
+  async getTitle(@Param('title') title: string) {
+    const movie = await this.moviesService.getOneTitle(title);
+    return movie;
+  }
 
   @Get(':id') //id별 movie
   async getOne(@Param('id') movieId: number) {
