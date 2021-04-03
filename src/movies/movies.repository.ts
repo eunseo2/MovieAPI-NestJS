@@ -4,14 +4,12 @@ import { Movie } from './entities/movie.entity';
 @EntityRepository(Movie)
 export class MovieRepository extends Repository<Movie> {
   //  classMethods
-
-  async getMovieByTitle(title: string): Promise<Movie> {
-    const movie = await this.findOne({
-      where: { title: title },
-    });
-    return movie;
-  }
-
+  // async getMovieByTitle(title: string): Promise<Movie> {
+  //   const movie = await this.findOne({
+  //     where: { title: title },
+  //   });
+  //   return movie;
+  // }
   // instaceMethods
 }
 

@@ -1,4 +1,4 @@
-import { Body } from '@nestjs/common';
+import { Body, Query } from '@nestjs/common';
 import { Controller, Delete, Get, Param, Post, Patch } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -19,8 +19,9 @@ export class MoviesController {
       statusMsg: `데이터 조회가 성공적으로 완료되었습니다.`,
     });
   }
-  @Get(':title')
-  async getTitle(@Param('title') title: string) {
+
+  @Get('search')
+  async search(@Query('title') title: string) {
     const movie = await this.moviesService.getOneTitle(title);
     return movie;
   }

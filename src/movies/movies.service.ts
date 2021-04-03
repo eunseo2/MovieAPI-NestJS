@@ -33,8 +33,13 @@ export class MoviesService {
     return this.movieRepository.update(id, updateData);
   }
 
-  async getOneTitle(title: string): Promise<Movie | undefined> {
-    const result = await this.movieRepository.getMovieByTitle(title);
-    return result;
+  async getOneTitle(title: string) {
+    console.log(title);
+    const movie = await this.movieRepository.findOne({
+      //where: { title: title },
+      where: { title },
+    });
+    console.log('servicess:', movie);
+    return movie;
   }
 }

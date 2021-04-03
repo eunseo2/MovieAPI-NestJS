@@ -13,7 +13,6 @@ const mockRepository = {
   save: jest.fn(),
   delete: jest.fn(),
   update: jest.fn(),
-  getMovieByTitle: jest.fn(),
 };
 
 describe('MoviesService', () => {
@@ -41,7 +40,7 @@ describe('MoviesService', () => {
 
   const movieData: Movie = {
     id: 1231,
-    title: 'title',
+    title: 'movie3',
     year: 2020,
     genres: 'action',
   };
@@ -99,9 +98,10 @@ describe('MoviesService', () => {
 
   describe('getOneTitle', () => {
     it('should return object', async () => {
-      const movie = await service.getOneTitle('movie2');
-      console.log(movie);
-      expect(movie).toBeInstanceOf(Object);
+      movieRepository.findOne.mockResolvedValue(movieData); // 결과값
+      const result = await service.getOneTitle(movieData.title);
+      console.log(result);
+      expect(result).toBeInstanceOf(Object);
     });
   });
 });
