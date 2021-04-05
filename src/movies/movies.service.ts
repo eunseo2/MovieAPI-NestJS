@@ -22,7 +22,7 @@ export class MoviesService {
     return movie;
   }
 
-  deleteOne(id: number) {
+  delete(id: number) {
     return this.movieRepository.delete(id);
   }
 

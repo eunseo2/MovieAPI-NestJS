@@ -47,7 +47,7 @@ export class MoviesController {
 
   @Delete(':id')
   async remove(@Param('id') movieId: number): Promise<string> {
-    await this.moviesService.deleteOne(movieId);
+    await this.moviesService.delete(movieId);
     return Object.assign({
       data: { movieId: movieId },
       statusCode: 201,
