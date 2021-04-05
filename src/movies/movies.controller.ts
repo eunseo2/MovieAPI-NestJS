@@ -61,6 +61,7 @@ export class MoviesController {
     @Param('id') movieId: number,
     @Body() updateData: UpdateMovieDto,
   ) {
-    await this.moviesService.update(movieId, updateData);
+    const movie = await this.moviesService.update(movieId, updateData);
+    return movie;
   }
 }

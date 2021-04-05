@@ -12,15 +12,16 @@ export class MoviesService {
 
   async getAll() {
     const movie = await this.movieRepository.find();
-    console.log(movie);
+    console.log('services:', movie);
     return movie;
   }
 
   async getOne(id: number) {
     const movie = await this.movieRepository.findOne(id);
-    console.log(movie);
+    console.log('services:', movie);
     return movie;
   }
+
   deleteOne(id: number) {
     return this.movieRepository.delete(id);
   }
@@ -29,8 +30,10 @@ export class MoviesService {
     return this.movieRepository.save(movieData);
   }
 
-  update(id: number, updateData: UpdateMovieDto) {
-    return this.movieRepository.update(id, updateData);
+  async update(id: number, updateData: UpdateMovieDto) {
+    const movie = await this.movieRepository.update(id, updateData);
+    console.log(movie);
+    return movie;
   }
 
   async getOneTitle(title: string): Promise<Movie> {
@@ -38,7 +41,7 @@ export class MoviesService {
     const movie = await this.movieRepository.findOne({
       where: { title },
     });
-    console.log('servicess:', movie);
+    console.log('services:', movie);
     return movie;
   }
 }
