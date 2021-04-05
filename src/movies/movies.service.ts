@@ -33,10 +33,9 @@ export class MoviesService {
     return this.movieRepository.update(id, updateData);
   }
 
-  async getOneTitle(title: string) {
+  async getOneTitle(title: string): Promise<Movie> {
     console.log(title);
     const movie = await this.movieRepository.findOne({
-      //where: { title: title },
       where: { title },
     });
     console.log('servicess:', movie);

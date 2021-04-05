@@ -9,9 +9,9 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'mariadb',
       host: 'localhost',
-      port: 3307,
+      port: 3306,
       username: 'root',
       password: '1234',
       database: 'test',
