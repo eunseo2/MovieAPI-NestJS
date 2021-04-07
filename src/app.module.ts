@@ -5,9 +5,13 @@ import { Movie } from './movies/entities/movie.entity';
 import { moviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env.development',
+    }),
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: 'localhost',
